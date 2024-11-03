@@ -17,9 +17,6 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
             
-            - name: Install Dependencies
-              run: composer install --no-ansi --no-interaction --prefer-dist
-            
             - name: Run Tests
               run: php artisan test
 
@@ -93,7 +90,7 @@ jobs:
             - name: Deploy to MAIN Environment
               run: ./scripts/deploy.sh main
 
-              
+
 
     
 
