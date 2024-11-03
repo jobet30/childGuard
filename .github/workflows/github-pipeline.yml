@@ -1,6 +1,14 @@
 name: Github-Pipeline
 
 on:
+    pull_request:
+        branches:
+            - dev
+            - qa
+            - uat
+            - sit
+            - st
+            - main
     push:
         branches:
             - dev
