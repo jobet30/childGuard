@@ -11,9 +11,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
 COPY . . 
 
 
-RUN composer install --optimize-autoloader --no-dev
-
-
 RUN npm install && npm run build
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
