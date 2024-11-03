@@ -26,6 +26,9 @@ jobs:
             - name: Install Composer Dependencies
               run: composer install
 
+            - name: Generate Application Key
+              run: php artisan key:generate --no-interaction
+
             - name: Build Docker Image
               run: docker build -t childguard360 .
 
