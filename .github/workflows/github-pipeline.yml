@@ -1,0 +1,100 @@
+name: Github-Pipeline
+
+on:
+    push:
+        branches:
+            - dev
+            - qa
+            - uat
+            - sit
+            - st
+            - main
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+            
+            - name: Install Dependencies
+              run: composer install --no-ansi --no-interaction --prefer-dist
+            
+            - name: Run Tests
+              run: php artisan test
+
+    build-image:
+        runs-on: ubuntu-latest
+        needs: build-and-test
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+            
+            - name: Build Docker Image
+              run: docker build -t childguard360
+
+    deploy_dev:
+        runs-on: ubuntu-latest
+        needs: build-image
+        if: github.ref == 'refs/heads/dev'
+        environment: 
+            name: dev
+        steps:
+            - name: Deploy to Development Environment
+              run: ./scripts/deploy.sh dev
+    
+    deploy_qa:
+        runs-on: ubuntu-latest
+        needs: build-image
+        if: github.ref == 'refs/heads/qa'
+        environment:
+            name: qa
+        steps:
+            - name: Deploy to QA Environment
+              run: ./scripts/deploy.sh qa
+
+    deploy_uat:
+        runs-on: ubuntu-latest
+        needs: build-image
+        if: github.ref == 'refs/heads/uat'
+        environment:
+            name: uat
+        steps:
+            - name: Deploy to UAT Environment
+              run: ./scripts/deploy.sh uat
+
+    deploy_sit:
+        runs-on: ubuntu-latest
+        needs: build-image
+        if: github.ref == 'refs/heads/sit'
+        environment:
+            name: sit
+        steps:
+            - name: Deploy to SIT Environment
+              run: ./scripts/deploy.sh sit
+
+    deploy_st:
+        runs-on: ubuntu-latest
+        needs: build-image
+        if: github.ref == 'refs/heads/st'
+        environment:
+            name: st
+        steps:
+            - name: Deploy to ST Environment
+              run: ./scripts/deploy.sh st
+
+    deploy_main:
+        runs-on: ubuntu-latest
+        needs: build-image
+        if: github.ref == 'refs/heads/main'
+        environment:
+            name: main
+        steps:
+            - name: Deploy to MAIN Environment
+              run: ./scripts/deploy.sh main
+
+              
+
+    
+
+
