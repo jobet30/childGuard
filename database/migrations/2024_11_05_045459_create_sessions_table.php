@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->dateTime('date');
+            $table->enum('frequency', ['one-time', 'weekly', 'monthly', 'quarterly'])->default('one-time'); // Frequency of the training session
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
