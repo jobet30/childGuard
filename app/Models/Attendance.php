@@ -23,4 +23,12 @@ class Attendance extends Model
      public function user(){
         return $this->belongsTo(User::class);
      }
+
+     /**
+      * Get the session that the attendance record belongs to.
+      */
+
+      public function sessions(){
+        return $this->hasMany(Session::class);
+      }
 }
